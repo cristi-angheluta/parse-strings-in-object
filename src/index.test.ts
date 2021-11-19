@@ -44,13 +44,16 @@ test("convert string representations of undefineds into real undefineds", () => 
 
 test("convert string representations of numbers into real numbers", () => {
   const before = { aNumber: "1", another: "0", andAnother: "42", aFloat: "42.4242",
-    aNegativeNumber: '-3.1415', aPositiveNumber: '+3.1415'};
+    aNegativeNumber: '-3.1415', aPositiveNumber: '+3.1415',
+    aNegativeNumber1: '-3.00000', aPositiveNumber1: '+3.0'};
   const result = parser(before) as typeof before;
   expect(result.aNumber).toBe(1);
   expect(result.andAnother).toBe(42);
   expect(result.aFloat).toBe(42.4242)
   expect(result.aNegativeNumber).toBe(-3.1415);
   expect(result.aPositiveNumber).toBe(3.1415);
+  expect(result.aNegativeNumber1).toBe(-3);
+  expect(result.aPositiveNumber1).toBe(3);
   expect(typeof result.aNumber).toBe("number");
   expect(typeof result.another).toBe("number");
   expect(typeof result.andAnother).toBe("number");
@@ -60,7 +63,7 @@ test("convert string representations of numbers into real numbers", () => {
 });
 
 test('conversion does not affect real numbers', () => {
-  const before = { n0: -1.01, n1: -1, n2: 0, n3: 1, n4: 1.01, n5: +100 };
+  const before = { n0: -1.01, n1: -1, n2: 0, n3: 1, n4: 1.01, n5: +100, n6: -1.00, n7: +1.0 };
   const result = parser(before) as typeof before;
   expect(result.n0).toBe(-1.01);
   expect(result.n1).toBe(-1);
@@ -68,6 +71,8 @@ test('conversion does not affect real numbers', () => {
   expect(result.n3).toBe(1);
   expect(result.n4).toBe(1.01);
   expect(result.n5).toBe(100);
+  expect(result.n6).toBe(-1);
+  expect(result.n7).toBe(1);
 })
 
 test("IP addresses should stay as strings though they look like numbers", () => {
@@ -110,7 +115,7 @@ test("convert array of objects with string representations of numbers", () => {
         value: "<<"
       },
       {
-        id: "+2",
+        id: "+287.00",
         value: "!>>"
       }
     ]
@@ -132,7 +137,7 @@ test("convert array of objects with string representations of numbers", () => {
         value: "<<"
       },
       {
-        id: 2,
+        id: 287.0,
         value: "!>>"
       }
     ]

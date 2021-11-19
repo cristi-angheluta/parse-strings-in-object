@@ -29,7 +29,7 @@ const convert = (value: string | any[]): any => {
     default:
       // other cases
       if (isNumber(value)) {
-        return parseFloat(value as string);
+        return Number(value);
       } else {
 
         if (isArrayLikeString(value) === true) {
@@ -45,7 +45,7 @@ const convert = (value: string | any[]): any => {
 
 const isNumber = (value: any = ''): boolean => {
   const val = '' + value;
-  return !isNaN(parseFloat(val)) && val === ((val.startsWith('+') ? '+' : '') + parseFloat(val).toString());
+  return !(isNaN(parseFloat(val)) || isNaN(Number(val)));
 };
 
 const convertArray = (a: any[]): any[] => a.map(el => convert(el));
@@ -56,10 +56,10 @@ const isArrayLikeString = (s: any): boolean => {
     return commaSeparated.length > 1;
   } else {
     return false;
-  } 
+  }
 }
 
-const arrayLikeStringToArray = (s: string, token: string = ",") => 
+const arrayLikeStringToArray = (s: string, token: string = ",") =>
   s.split(token).map(element => element.trim()).filter(element => element !== "" && element !== null);
 
 export = parseKeys;
